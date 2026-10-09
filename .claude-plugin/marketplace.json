@@ -1,0 +1,17 @@
+{
+  "name": "subprocessors",
+  "description": "subprocessors inside Claude Code: draft this codebase's GDPR sub-processor list from its code (vendors, purposes, a data guess, regions, DPA links, and the file and line each was found at), and check whether a change adds one. Open source, no account, nothing sent anywhere.",
+  "owner": {
+    "name": "agentwares",
+    "url": "https://github.com/agentwares"
+  },
+  "plugins": [
+    {
+      "name": "subprocessors",
+      "source": "./plugins/subprocessors",
+      "description": "Draft the sub-processor list from this code and keep it current. /subprocessors:subprocessors runs `npx --allow-git=root github:agentwares/subprocessors` and turns the draft into a list for you to review: each vendor's purpose, the personal data it likely gets, where it runs and its DPA, with the evidence, and what a list from code cannot see.",
+      "category": "productivity",
+      "tags": ["gdpr", "subprocessors", "dpa", "privacy", "compliance", "trust-center"]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "subprocessors",
+  "version": "0.1.0",
+  "description": "Draft this codebase's GDPR Art. 28 sub-processor list from its code: every vendor it sends data to (hosting, databases, payments, email, LLM APIs, monitoring, analytics, auth), with purpose, a personal-data guess, the region where the code says it, the DPA and the file and line it was found at; and check whether a change adds one. Runs npx --allow-git=root github:agentwares/subprocessors locally; no account, no requests, no LLM calls of its own. A draft to review, not legal advice.",
+  "author": {
+    "name": "agentwares",
+    "url": "https://github.com/agentwares"
+  },
+  "homepage": "https://agentwares-agentcheck.vercel.app/subprocessors",
+  "documentationUrl": "https://github.com/agentwares/subprocessors#readme",
+  "repository": "https://github.com/agentwares/subprocessors",
+  "privacyPolicyUrl": "https://agentwares-agentcheck.vercel.app/privacy",
+  "termsOfServiceUrl": "https://agentwares-agentcheck.vercel.app/terms",
+  "supportUrl": "https://agentwares.vercel.app/contact",
+  "license": "MIT",
+  "icon": "./.claude-plugin/icon.png",
+  "keywords": ["gdpr", "subprocessors", "sub-processors", "dpa", "privacy", "compliance"]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "demo-notes-app",
+  "private": true,
+  "description": "A synthetic Next.js app, written for the subprocessors demo: not anyone's code.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
+    "@aws-sdk/client-s3": "^3.900.0",
+    "@neondatabase/serverless": "^1.1.0",
+    "@sentry/nextjs": "^10.20.0",
+    "@vercel/analytics": "^1.6.0",
+    "drizzle-orm": "^0.45.0",
+    "next": "^16.3.0",
+    "next-auth": "5.0.0-beta.32",
+    "posthog-js": "^1.280.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "stripe": "^19.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  }
+}

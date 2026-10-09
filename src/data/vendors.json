@@ -1,0 +1,1251 @@
+{
+  "updated": "2026-10-09",
+  "about": "Vendors a codebase can show it sends data to, with what each is usually engaged for, a guess at the personal data it receives, its data processing agreement and its own sub-processor list. Every link was fetched on the day in `seen` and answered or redirected to the vendor's trust center; a link that could not be found is null. A draft aid, not legal advice: whether a vendor is your sub-processor depends on what data you send it and on your contracts.",
+  "categories": {
+    "hosting": {
+      "label": "Hosting",
+      "data": "Everything your app serves and handles while it runs there, including request logs with IP addresses"
+    },
+    "infrastructure": {
+      "label": "Cloud infrastructure",
+      "data": "Depends on the services you use: anything you store or process there"
+    },
+    "database": { "label": "Database", "data": "All personal data your app stores" },
+    "cache": {
+      "label": "Cache and queues",
+      "data": "Whatever you cache or queue: sessions, rate-limit keys, job payloads"
+    },
+    "storage": { "label": "File storage", "data": "Files and media your users upload" },
+    "payments": {
+      "label": "Payments",
+      "data": "Customers' names, email and billing addresses; card details, which the vendor holds"
+    },
+    "email": {
+      "label": "Email delivery",
+      "data": "Recipients' names and email addresses, and message content"
+    },
+    "sms": { "label": "SMS and voice", "data": "Phone numbers and message content" },
+    "llm": {
+      "label": "LLM inference",
+      "data": "Prompts and outputs, and any personal data users or your app put in them"
+    },
+    "ai-media": {
+      "label": "AI speech and media",
+      "data": "Audio, images or text you send, and any personal data in them"
+    },
+    "vector": {
+      "label": "Vector database",
+      "data": "Embeddings and the metadata you store with them, which may include text from users"
+    },
+    "errors": {
+      "label": "Error monitoring",
+      "data": "IP addresses, user IDs or emails attached to errors, and request data in stack traces"
+    },
+    "logging": {
+      "label": "Logs and observability",
+      "data": "Log lines and traces, which may hold IP addresses, user IDs, request data and prompts"
+    },
+    "analytics": {
+      "label": "Product analytics",
+      "data": "Usage events, device and browser data, IP addresses and user IDs"
+    },
+    "auth": { "label": "Authentication", "data": "Names, email addresses, login and session data" },
+    "support": {
+      "label": "Customer support",
+      "data": "Names, email addresses and conversation content"
+    },
+    "messaging": {
+      "label": "Team messaging",
+      "data": "Whatever your alerts and notifications contain"
+    },
+    "search": { "label": "Search", "data": "The records you index" },
+    "jobs": { "label": "Background jobs", "data": "Job payloads and their results" },
+    "realtime": {
+      "label": "Realtime",
+      "data": "Messages and presence data passed between your users"
+    },
+    "scraping": {
+      "label": "Automation platform",
+      "data": "Whatever the jobs you run there collect or receive"
+    },
+    "ci": {
+      "label": "Code hosting and CI",
+      "data": "Your code; customer data only if a job reads production data or a user signs in with it"
+    }
+  },
+  "vendors": [
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "hosting",
+      "kind": "likely",
+      "purpose": "Hosting and serverless functions",
+      "dpa": "https://vercel.com/legal/dpa",
+      "list": "https://vercel.com/legal/sub-processors",
+      "seen": "2026-10-09",
+      "note": "The list link redirects to Vercel's trust center.",
+      "match": {
+        "npm": ["vercel", "@vercel/functions", "@vercel/edge-config", "@vercel/og"],
+        "env": ["VERCEL_", "EDGE_CONFIG"],
+        "files": ["vercel.json"]
+      },
+      "services": [
+        {
+          "npm": ["@vercel/blob"],
+          "env": ["BLOB_READ_WRITE_TOKEN"],
+          "purpose": "File storage (Vercel Blob)"
+        },
+        { "npm": ["@vercel/analytics"], "purpose": "Web analytics (Vercel Analytics)" },
+        { "npm": ["@vercel/speed-insights"], "purpose": "Performance monitoring (Speed Insights)" },
+        {
+          "npm": ["@ai-sdk/gateway"],
+          "env": ["AI_GATEWAY_API_KEY"],
+          "purpose": "AI Gateway, which routes prompts to model providers"
+        }
+      ]
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "category": "hosting",
+      "kind": "likely",
+      "purpose": "Workers hosting and edge network",
+      "dpa": "https://www.cloudflare.com/cloudflare-customer-dpa/",
+      "list": "https://www.cloudflare.com/gdpr/subprocessors/cloudflare-services/",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["wrangler", "@cloudflare/next-on-pages", "@opennextjs/cloudflare", "cloudflare"],
+        "env": ["CLOUDFLARE_", "CF_API_TOKEN", "CF_ACCOUNT_ID"],
+        "files": ["wrangler.toml", "wrangler.json", "wrangler.jsonc"],
+        "terraform": ["cloudflare"]
+      }
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "category": "hosting",
+      "kind": "likely",
+      "purpose": "Hosting and serverless functions",
+      "dpa": "https://www.netlify.com/pdf/netlify-dpa.pdf",
+      "list": "https://www.netlify.com/legal/subprocessors/",
+      "seen": "2026-10-09",
+      "note": "The list link redirects to Netlify's trust center.",
+      "match": {
+        "npm": ["netlify-cli", "@netlify/"],
+        "env": ["NETLIFY_"],
+        "files": ["netlify.toml"]
+      }
+    },
+    {
+      "id": "fly",
+      "name": "Fly.io",
+      "category": "hosting",
+      "kind": "likely",
+      "purpose": "Application hosting",
+      "dpa": null,
+      "list": "https://fly.io/legal/sub-processors/",
+      "seen": "2026-10-09",
+      "match": { "env": ["FLY_API_TOKEN", "FLY_APP_NAME"], "files": ["fly.toml"] }
+    },
+    {
+      "id": "render",
+      "name": "Render",
+      "category": "hosting",
+      "kind": "likely",
+      "purpose": "Application hosting",
+      "dpa": "https://render.com/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "env": ["RENDER_API_KEY"], "files": ["render.yaml"] }
+    },
+    {
+      "id": "railway",
+      "name": "Railway",
+      "category": "hosting",
+      "kind": "likely",
+      "purpose": "Application hosting",
+      "dpa": "https://railway.com/legal/dpa",
+      "list": "https://railway.com/legal/subprocessors",
+      "seen": "2026-10-09",
+      "note": "The list link redirects to Railway's trust center.",
+      "match": {
+        "env": ["RAILWAY_TOKEN", "RAILWAY_PROJECT_ID"],
+        "files": ["railway.json", "railway.toml"]
+      }
+    },
+    {
+      "id": "digitalocean",
+      "name": "DigitalOcean",
+      "category": "infrastructure",
+      "kind": "likely",
+      "purpose": "Cloud infrastructure",
+      "dpa": "https://www.digitalocean.com/legal/data-processing-agreement",
+      "list": "https://www.digitalocean.com/trust/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "env": ["DIGITALOCEAN_"],
+        "files": [".do/app.yaml"],
+        "terraform": ["digitalocean"]
+      }
+    },
+    {
+      "id": "aws",
+      "name": "Amazon Web Services",
+      "category": "infrastructure",
+      "kind": "likely",
+      "purpose": "Cloud infrastructure",
+      "dpa": "https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
+      "list": "https://aws.amazon.com/compliance/sub-processors/",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@aws-sdk/", "aws-sdk", "aws-cdk-lib"],
+        "pypi": ["boto3", "botocore", "aws-cdk-lib"],
+        "py": ["boto3", "botocore"],
+        "go": ["github.com/aws/aws-sdk-go"],
+        "gem": ["aws-sdk"],
+        "env": ["AWS_"],
+        "files": ["amplify.yml", "samconfig.toml", "cdk.json"],
+        "terraform": ["aws"]
+      },
+      "services": [
+        {
+          "npm": ["@aws-sdk/client-s3", "@aws-sdk/lib-storage"],
+          "purpose": "File storage (S3)"
+        },
+        { "npm": ["@aws-sdk/client-ses", "@aws-sdk/client-sesv2"], "purpose": "Email (SES)" },
+        {
+          "npm": ["@aws-sdk/client-dynamodb", "@aws-sdk/lib-dynamodb"],
+          "purpose": "Database (DynamoDB)"
+        },
+        { "npm": ["@aws-sdk/client-sqs"], "purpose": "Queues (SQS)" },
+        {
+          "npm": ["@aws-sdk/client-bedrock-runtime", "@ai-sdk/amazon-bedrock"],
+          "purpose": "LLM inference (Bedrock)"
+        }
+      ]
+    },
+    {
+      "id": "google-cloud",
+      "name": "Google Cloud",
+      "category": "infrastructure",
+      "kind": "likely",
+      "purpose": "Cloud infrastructure",
+      "dpa": "https://cloud.google.com/terms/data-processing-addendum",
+      "list": "https://cloud.google.com/terms/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@google-cloud/"],
+        "pypi": ["google-cloud-"],
+        "py": ["google.cloud"],
+        "go": ["cloud.google.com/go"],
+        "env": ["GOOGLE_APPLICATION_CREDENTIALS", "GCP_", "GCLOUD_", "GOOGLE_CLOUD_"],
+        "terraform": ["google", "google-beta"]
+      },
+      "services": [
+        { "npm": ["@google-cloud/storage"], "purpose": "File storage (Cloud Storage)" },
+        {
+          "npm": ["@google-cloud/vertexai", "@ai-sdk/google-vertex"],
+          "purpose": "LLM inference (Vertex AI)"
+        },
+        { "npm": ["@google-cloud/bigquery"], "purpose": "Data warehouse (BigQuery)" }
+      ]
+    },
+    {
+      "id": "azure",
+      "name": "Microsoft Azure",
+      "category": "infrastructure",
+      "kind": "likely",
+      "purpose": "Cloud infrastructure",
+      "dpa": "https://aka.ms/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "The DPA link is Microsoft's Products and Services Data Protection Addendum.",
+      "match": {
+        "npm": ["@azure/"],
+        "pypi": ["azure-"],
+        "py": ["azure"],
+        "env": ["AZURE_"],
+        "terraform": ["azurerm"]
+      },
+      "services": [
+        { "npm": ["@azure/openai", "@ai-sdk/azure"], "purpose": "LLM inference (Azure OpenAI)" },
+        { "npm": ["@azure/storage-blob"], "purpose": "File storage (Blob Storage)" }
+      ]
+    },
+    {
+      "id": "neon",
+      "name": "Neon",
+      "category": "database",
+      "kind": "likely",
+      "purpose": "Serverless Postgres database",
+      "dpa": "https://neon.com/dpa",
+      "list": "https://neon.com/subprocessors",
+      "seen": "2026-10-09",
+      "note": "Neon is part of Databricks: the DPA link leads to Neon's platform terms under the Databricks agreement, and the list link to Databricks' sub-processor list.",
+      "match": {
+        "npm": [
+          "@neondatabase/",
+          "@vercel/postgres",
+          "drizzle-orm/neon-http",
+          "drizzle-orm/neon-serverless",
+          "@prisma/adapter-neon"
+        ],
+        "env": ["NEON_"],
+        "terraform": ["neon"]
+      }
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "database",
+      "kind": "likely",
+      "purpose": "Postgres database, auth and storage",
+      "dpa": "https://supabase.com/legal/dpa",
+      "list": "https://supabase.com/legal/customer-resources/subprocessor-list",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@supabase/", "supabase"],
+        "pypi": ["supabase"],
+        "py": ["supabase"],
+        "env": ["SUPABASE_"],
+        "files": ["supabase/config.toml"]
+      }
+    },
+    {
+      "id": "planetscale",
+      "name": "PlanetScale",
+      "category": "database",
+      "kind": "likely",
+      "purpose": "MySQL and Postgres database",
+      "dpa": "https://planetscale.com/legal/dpa",
+      "list": "https://planetscale.com/legal/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@planetscale/database", "drizzle-orm/planetscale-serverless"],
+        "env": ["PLANETSCALE_"]
+      }
+    },
+    {
+      "id": "turso",
+      "name": "Turso",
+      "category": "database",
+      "kind": "likely",
+      "purpose": "SQLite database",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["@libsql/client", "@tursodatabase/"], "env": ["TURSO_"] }
+    },
+    {
+      "id": "mongodb-atlas",
+      "name": "MongoDB Atlas",
+      "category": "database",
+      "kind": "likely",
+      "purpose": "Document database",
+      "dpa": "https://www.mongodb.com/legal/data-processing-agreement",
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "The MongoDB driver also talks to a self-hosted database; this row is a sub-processor only if the database is on Atlas.",
+      "match": {
+        "npm": ["mongodb", "mongoose"],
+        "pypi": ["pymongo", "motor"],
+        "py": ["pymongo", "motor"],
+        "env": ["MONGODB_"],
+        "terraform": ["mongodbatlas"]
+      }
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase (Google)",
+      "category": "database",
+      "kind": "likely",
+      "purpose": "Database, auth and hosting",
+      "dpa": "https://firebase.google.com/terms/data-processing-terms",
+      "list": "https://firebase.google.com/terms/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["firebase", "firebase-admin", "firebase-tools"],
+        "pypi": ["firebase-admin"],
+        "py": ["firebase_admin"],
+        "env": ["FIREBASE_"],
+        "files": ["firebase.json"]
+      }
+    },
+    {
+      "id": "upstash",
+      "name": "Upstash",
+      "category": "cache",
+      "kind": "likely",
+      "purpose": "Redis, rate limiting and message queues",
+      "dpa": "https://upstash.com/trust/dpa.pdf",
+      "list": "https://upstash.com/trust/subprocessors.pdf",
+      "seen": "2026-10-09",
+      "note": "Vercel KV runs on Upstash.",
+      "match": {
+        "npm": ["@upstash/", "@vercel/kv"],
+        "pypi": ["upstash-redis"],
+        "env": ["UPSTASH_", "KV_REST_API_", "QSTASH_"]
+      }
+    },
+    {
+      "id": "pinecone",
+      "name": "Pinecone",
+      "category": "vector",
+      "kind": "likely",
+      "purpose": "Vector database",
+      "dpa": "https://www.pinecone.io/legal/data-processing-addendum/",
+      "list": "https://www.pinecone.io/subprocessors/",
+      "seen": "2026-10-09",
+      "note": "The list link redirects to Pinecone's trust center.",
+      "match": {
+        "npm": ["@pinecone-database/"],
+        "pypi": ["pinecone", "pinecone-client"],
+        "py": ["pinecone"],
+        "env": ["PINECONE_"]
+      }
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "category": "payments",
+      "kind": "likely",
+      "purpose": "Payments and billing",
+      "dpa": "https://stripe.com/legal/dpa",
+      "list": "https://stripe.com/legal/service-providers",
+      "seen": "2026-10-09",
+      "note": "Stripe's DPA gives 30 days to object to a new sub-processor, then deems it accepted (ConductAtlas, read 9 Oct 2026). Stripe is also an independent controller for some payment data.",
+      "match": {
+        "npm": ["stripe", "@stripe/"],
+        "pypi": ["stripe"],
+        "py": ["stripe"],
+        "go": ["github.com/stripe/stripe-go"],
+        "gem": ["stripe"],
+        "env": ["STRIPE_"],
+        "hosts": ["api.stripe.com", "js.stripe.com"]
+      }
+    },
+    {
+      "id": "paddle",
+      "name": "Paddle",
+      "category": "payments",
+      "kind": "likely",
+      "purpose": "Payments as merchant of record",
+      "dpa": "https://www.paddle.com/legal/data-processing-addendum",
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "As merchant of record, Paddle sells to your customers itself and is a controller for that sale.",
+      "match": {
+        "npm": ["@paddle/"],
+        "pypi": ["paddle-python-sdk"],
+        "env": ["PADDLE_"],
+        "hosts": ["api.paddle.com"]
+      }
+    },
+    {
+      "id": "lemonsqueezy",
+      "name": "Lemon Squeezy",
+      "category": "payments",
+      "kind": "likely",
+      "purpose": "Payments as merchant of record",
+      "dpa": "https://www.lemonsqueezy.com/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@lemonsqueezy/"],
+        "env": ["LEMONSQUEEZY_", "LEMON_SQUEEZY_"],
+        "hosts": ["api.lemonsqueezy.com"]
+      }
+    },
+    {
+      "id": "resend",
+      "name": "Resend",
+      "category": "email",
+      "kind": "likely",
+      "purpose": "Transactional email",
+      "dpa": "https://resend.com/legal/dpa",
+      "list": "https://resend.com/legal/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["resend"],
+        "pypi": ["resend"],
+        "py": ["resend"],
+        "env": ["RESEND_"],
+        "hosts": ["api.resend.com"]
+      }
+    },
+    {
+      "id": "sendgrid",
+      "name": "Twilio SendGrid",
+      "category": "email",
+      "kind": "likely",
+      "purpose": "Transactional and marketing email",
+      "dpa": "https://www.twilio.com/en-us/legal/data-protection-addendum",
+      "list": "https://www.twilio.com/en-us/legal/sub-processors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@sendgrid/"],
+        "pypi": ["sendgrid"],
+        "py": ["sendgrid"],
+        "env": ["SENDGRID_"],
+        "hosts": ["api.sendgrid.com"]
+      }
+    },
+    {
+      "id": "postmark",
+      "name": "Postmark",
+      "category": "email",
+      "kind": "likely",
+      "purpose": "Transactional email",
+      "dpa": "https://postmarkapp.com/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["postmark"],
+        "pypi": ["postmarker"],
+        "env": ["POSTMARK_"],
+        "hosts": ["api.postmarkapp.com"]
+      }
+    },
+    {
+      "id": "mailgun",
+      "name": "Mailgun",
+      "category": "email",
+      "kind": "likely",
+      "purpose": "Transactional email",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["mailgun.js", "mailgun-js"],
+        "env": ["MAILGUN_"],
+        "hosts": ["api.mailgun.net", "api.eu.mailgun.net"]
+      }
+    },
+    {
+      "id": "loops",
+      "name": "Loops",
+      "category": "email",
+      "kind": "likely",
+      "purpose": "Product and transactional email",
+      "dpa": "https://loops.so/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["loops"], "env": ["LOOPS_"], "hosts": ["app.loops.so/api"] }
+    },
+    {
+      "id": "twilio",
+      "name": "Twilio",
+      "category": "sms",
+      "kind": "likely",
+      "purpose": "SMS, voice and verification",
+      "dpa": "https://www.twilio.com/en-us/legal/data-protection-addendum",
+      "list": "https://www.twilio.com/en-us/legal/sub-processors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["twilio"],
+        "pypi": ["twilio"],
+        "py": ["twilio"],
+        "gem": ["twilio-ruby"],
+        "env": ["TWILIO_"],
+        "hosts": ["api.twilio.com"]
+      }
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference (Claude)",
+      "dpa": "https://www.anthropic.com/legal/data-processing-addendum",
+      "list": "https://trust.anthropic.com/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": [
+          "@anthropic-ai/sdk",
+          "@anthropic-ai/bedrock-sdk",
+          "@anthropic-ai/vertex-sdk",
+          "@ai-sdk/anthropic",
+          "@anthropic-ai/claude-agent-sdk"
+        ],
+        "pypi": ["anthropic"],
+        "py": ["anthropic"],
+        "go": ["github.com/anthropics/anthropic-sdk-go"],
+        "env": ["ANTHROPIC_"],
+        "hosts": ["api.anthropic.com"]
+      }
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference",
+      "dpa": "https://openai.com/policies/data-processing-addendum/",
+      "list": "https://openai.com/policies/sub-processor-list/",
+      "seen": "2026-10-09",
+      "note": "openai.com refused the automated check on 9 Oct 2026; both links are the ones OpenAI's own pages name.",
+      "match": {
+        "npm": ["openai", "@ai-sdk/openai", "@openai/agents"],
+        "pypi": ["openai"],
+        "py": ["openai"],
+        "go": ["github.com/openai/openai-go"],
+        "env": ["OPENAI_"],
+        "hosts": ["api.openai.com"]
+      }
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini API",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference (Gemini)",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "The Gemini API's terms are at https://ai.google.dev/gemini-api/terms; through Vertex AI, Google Cloud's DPA applies (the Google Cloud row).",
+      "match": {
+        "npm": ["@google/generative-ai", "@google/genai", "@ai-sdk/google"],
+        "pypi": ["google-generativeai", "google-genai"],
+        "py": ["google.generativeai", "google.genai"],
+        "env": ["GEMINI_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY", "GOOGLE_GENAI_API_KEY"],
+        "hosts": ["generativelanguage.googleapis.com"]
+      }
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral AI",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference",
+      "dpa": "https://legal.mistral.ai/terms/data-processing-addendum/",
+      "list": "https://trust.mistral.ai/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@mistralai/mistralai", "@ai-sdk/mistral"],
+        "pypi": ["mistralai"],
+        "py": ["mistralai"],
+        "env": ["MISTRAL_"],
+        "hosts": ["api.mistral.ai"]
+      }
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference",
+      "dpa": "https://console.groq.com/docs/legal/customer-data-processing-addendum",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["groq-sdk", "@ai-sdk/groq"],
+        "pypi": ["groq"],
+        "py": ["groq"],
+        "env": ["GROQ_"],
+        "hosts": ["api.groq.com"]
+      }
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference and embeddings",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["cohere-ai", "@ai-sdk/cohere"],
+        "pypi": ["cohere"],
+        "py": ["cohere"],
+        "env": ["COHERE_", "CO_API_KEY"],
+        "hosts": ["api.cohere.com", "api.cohere.ai"]
+      }
+    },
+    {
+      "id": "xai",
+      "name": "xAI",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference (Grok)",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["@ai-sdk/xai"], "env": ["XAI_"], "hosts": ["api.x.ai"] }
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM routing to many model providers",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "OpenRouter forwards prompts to the model's provider, which is a further sub-processor in the chain.",
+      "match": {
+        "npm": ["@openrouter/ai-sdk-provider", "@openrouter/sdk"],
+        "env": ["OPENROUTER_"],
+        "hosts": ["openrouter.ai/api"]
+      }
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "LLM inference",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["together-ai", "@ai-sdk/togetherai"],
+        "pypi": ["together"],
+        "env": ["TOGETHER_"],
+        "hosts": ["api.together.xyz", "api.together.ai"]
+      }
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "Model inference",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["replicate"],
+        "pypi": ["replicate"],
+        "py": ["replicate"],
+        "env": ["REPLICATE_"],
+        "hosts": ["api.replicate.com"]
+      }
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "category": "llm",
+      "kind": "likely",
+      "purpose": "Model inference",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@huggingface/inference"],
+        "pypi": ["huggingface-hub"],
+        "py": ["huggingface_hub"],
+        "env": ["HF_TOKEN", "HUGGINGFACE_", "HUGGING_FACE_"],
+        "hosts": ["api-inference.huggingface.co", "router.huggingface.co"]
+      }
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "category": "ai-media",
+      "kind": "likely",
+      "purpose": "Speech synthesis",
+      "dpa": "https://elevenlabs.io/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["elevenlabs", "@elevenlabs/"],
+        "pypi": ["elevenlabs"],
+        "py": ["elevenlabs"],
+        "env": ["ELEVENLABS_", "ELEVEN_LABS_"],
+        "hosts": ["api.elevenlabs.io"]
+      }
+    },
+    {
+      "id": "deepgram",
+      "name": "Deepgram",
+      "category": "ai-media",
+      "kind": "likely",
+      "purpose": "Speech to text",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@deepgram/sdk"],
+        "pypi": ["deepgram-sdk"],
+        "py": ["deepgram"],
+        "env": ["DEEPGRAM_"],
+        "hosts": ["api.deepgram.com"]
+      }
+    },
+    {
+      "id": "sentry",
+      "name": "Sentry",
+      "category": "errors",
+      "kind": "likely",
+      "purpose": "Error and performance monitoring",
+      "dpa": "https://sentry.io/legal/dpa/",
+      "list": "https://sentry.io/legal/subprocessors/",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@sentry/", "raven-js"],
+        "pypi": ["sentry-sdk"],
+        "py": ["sentry_sdk"],
+        "go": ["github.com/getsentry/sentry-go"],
+        "gem": ["sentry-ruby", "sentry-rails"],
+        "env": ["SENTRY_"]
+      }
+    },
+    {
+      "id": "datadog",
+      "name": "Datadog",
+      "category": "logging",
+      "kind": "likely",
+      "purpose": "Monitoring, logs and APM",
+      "dpa": "https://www.datadoghq.com/legal/data-processing-addendum/",
+      "list": "https://www.datadoghq.com/subprocessors/",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["dd-trace", "@datadog/"],
+        "pypi": ["ddtrace", "datadog"],
+        "py": ["ddtrace", "datadog"],
+        "go": ["gopkg.in/DataDog/dd-trace-go", "github.com/DataDog/dd-trace-go"],
+        "env": ["DD_API_KEY", "DD_SITE", "DATADOG_"],
+        "terraform": ["datadog"]
+      }
+    },
+    {
+      "id": "betterstack",
+      "name": "Better Stack",
+      "category": "logging",
+      "kind": "likely",
+      "purpose": "Logs and uptime monitoring",
+      "dpa": "https://betterstack.com/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@logtail/"],
+        "pypi": ["logtail-python"],
+        "env": ["LOGTAIL_", "BETTER_STACK_", "BETTERSTACK_"],
+        "hosts": ["in.logs.betterstack.com", "in.logtail.com"]
+      }
+    },
+    {
+      "id": "axiom",
+      "name": "Axiom",
+      "category": "logging",
+      "kind": "likely",
+      "purpose": "Logs and traces",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@axiomhq/", "next-axiom"],
+        "env": ["AXIOM_"],
+        "hosts": ["api.axiom.co"]
+      }
+    },
+    {
+      "id": "langfuse",
+      "name": "Langfuse",
+      "category": "logging",
+      "kind": "likely",
+      "purpose": "LLM tracing and evaluation",
+      "dpa": "https://langfuse.com/security/dpa",
+      "list": "https://langfuse.com/security/subprocessors",
+      "seen": "2026-10-09",
+      "note": "Langfuse is part of ClickHouse: both links lead to ClickHouse's pages for Langfuse Cloud. Self-hosted Langfuse is not a sub-processor.",
+      "match": {
+        "npm": ["langfuse", "@langfuse/", "langfuse-vercel", "langfuse-langchain"],
+        "pypi": ["langfuse"],
+        "py": ["langfuse"],
+        "env": ["LANGFUSE_"],
+        "hosts": ["cloud.langfuse.com", "us.cloud.langfuse.com"]
+      }
+    },
+    {
+      "id": "helicone",
+      "name": "Helicone",
+      "category": "logging",
+      "kind": "likely",
+      "purpose": "LLM request logging",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@helicone/"],
+        "env": ["HELICONE_"],
+        "hosts": ["oai.helicone.ai", "anthropic.helicone.ai", "ai-gateway.helicone.ai"]
+      }
+    },
+    {
+      "id": "posthog",
+      "name": "PostHog",
+      "category": "analytics",
+      "kind": "likely",
+      "purpose": "Product analytics and session replay",
+      "dpa": "https://posthog.com/dpa",
+      "list": "https://posthog.com/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["posthog-js", "posthog-node", "@posthog/"],
+        "pypi": ["posthog"],
+        "py": ["posthog"],
+        "env": ["POSTHOG_"],
+        "hosts": ["us.i.posthog.com", "eu.i.posthog.com", "app.posthog.com"]
+      }
+    },
+    {
+      "id": "mixpanel",
+      "name": "Mixpanel",
+      "category": "analytics",
+      "kind": "likely",
+      "purpose": "Product analytics",
+      "dpa": "https://mixpanel.com/legal/dpa/",
+      "list": "https://mixpanel.com/legal/subprocessors/",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["mixpanel", "mixpanel-browser"],
+        "pypi": ["mixpanel"],
+        "py": ["mixpanel"],
+        "env": ["MIXPANEL_"],
+        "hosts": ["api.mixpanel.com", "api-js.mixpanel.com"]
+      }
+    },
+    {
+      "id": "amplitude",
+      "name": "Amplitude",
+      "category": "analytics",
+      "kind": "likely",
+      "purpose": "Product analytics",
+      "dpa": "https://amplitude.com/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@amplitude/"],
+        "pypi": ["amplitude-analytics"],
+        "env": ["AMPLITUDE_"],
+        "hosts": ["api2.amplitude.com"]
+      }
+    },
+    {
+      "id": "segment",
+      "name": "Twilio Segment",
+      "category": "analytics",
+      "kind": "likely",
+      "purpose": "Customer data pipeline",
+      "dpa": "https://www.twilio.com/en-us/legal/data-protection-addendum",
+      "list": "https://www.twilio.com/en-us/legal/sub-processors",
+      "seen": "2026-10-09",
+      "note": "Segment forwards events to the destinations you turn on, each a further recipient.",
+      "match": {
+        "npm": ["@segment/", "analytics-node"],
+        "pypi": ["segment-analytics-python"],
+        "env": ["SEGMENT_"],
+        "hosts": ["api.segment.io", "cdn.segment.com"]
+      }
+    },
+    {
+      "id": "google-analytics",
+      "name": "Google Analytics",
+      "category": "analytics",
+      "kind": "likely",
+      "purpose": "Web analytics",
+      "dpa": "https://business.safety.google/adsprocessorterms/",
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "The DPA link is Google Ads Data Processing Terms, which cover Google Analytics.",
+      "match": {
+        "npm": ["react-ga4", "ga-4-react", "@next/third-parties/google"],
+        "env": ["GA_MEASUREMENT_ID", "GA_TRACKING_ID", "GOOGLE_ANALYTICS_", "GA4_"],
+        "hosts": ["www.googletagmanager.com", "www.google-analytics.com"]
+      }
+    },
+    {
+      "id": "plausible",
+      "name": "Plausible Analytics",
+      "category": "analytics",
+      "kind": "likely",
+      "purpose": "Web analytics without cookies",
+      "dpa": "https://plausible.io/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["next-plausible", "plausible-tracker", "@plausible-analytics/tracker"],
+        "env": ["PLAUSIBLE_"],
+        "hosts": ["plausible.io/js", "plausible.io/api"]
+      }
+    },
+    {
+      "id": "clerk",
+      "name": "Clerk",
+      "category": "auth",
+      "kind": "likely",
+      "purpose": "User authentication",
+      "dpa": "https://clerk.com/legal/dpa",
+      "list": "https://clerk.com/legal/subprocessors",
+      "seen": "2026-10-09",
+      "match": { "npm": ["@clerk/"], "pypi": ["clerk-backend-api"], "env": ["CLERK_"] }
+    },
+    {
+      "id": "auth0",
+      "name": "Auth0 (Okta)",
+      "category": "auth",
+      "kind": "likely",
+      "purpose": "User authentication",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "Okta's agreements, including its DPA, are listed at https://www.okta.com/legal/.",
+      "match": {
+        "npm": ["@auth0/", "auth0", "next-auth/providers/auth0", "@auth/core/providers/auth0"],
+        "pypi": ["auth0-python"],
+        "py": ["auth0"],
+        "env": ["AUTH0_", "AUTH_AUTH0_"]
+      }
+    },
+    {
+      "id": "workos",
+      "name": "WorkOS",
+      "category": "auth",
+      "kind": "likely",
+      "purpose": "Enterprise SSO and user management",
+      "dpa": "https://workos.com/legal/dpa",
+      "list": "https://workos.com/legal/subprocessors",
+      "seen": "2026-10-09",
+      "note": "The list link redirects to WorkOS's trust center.",
+      "match": {
+        "npm": ["@workos-inc/"],
+        "pypi": ["workos"],
+        "py": ["workos"],
+        "env": ["WORKOS_"],
+        "hosts": ["api.workos.com"]
+      }
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "category": "messaging",
+      "kind": "likely",
+      "purpose": "Alerts and notifications to Slack",
+      "dpa": "https://slack.com/terms-of-service/data-processing",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@slack/"],
+        "pypi": ["slack-sdk", "slack-bolt"],
+        "py": ["slack_sdk", "slack_bolt"],
+        "env": ["SLACK_"],
+        "hosts": ["hooks.slack.com", "slack.com/api"]
+      }
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "category": "messaging",
+      "kind": "likely",
+      "purpose": "Alerts and notifications to Discord",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "note": "No DPA for webhooks was found on 9 Oct 2026; check before a notification carries customer data.",
+      "match": {
+        "npm": ["discord.js", "@discordjs/"],
+        "pypi": ["discord-py"],
+        "env": ["DISCORD_"],
+        "hosts": ["discord.com/api/webhooks", "discordapp.com/api/webhooks"]
+      }
+    },
+    {
+      "id": "intercom",
+      "name": "Intercom",
+      "category": "support",
+      "kind": "likely",
+      "purpose": "Customer messaging and support",
+      "dpa": "https://www.intercom.com/legal/data-processing-agreement",
+      "list": "https://www.intercom.com/legal/subprocessors-list",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@intercom/", "intercom-client", "react-use-intercom"],
+        "env": ["INTERCOM_"],
+        "hosts": ["api.intercom.io", "widget.intercom.io"]
+      }
+    },
+    {
+      "id": "crisp",
+      "name": "Crisp",
+      "category": "support",
+      "kind": "likely",
+      "purpose": "Customer chat",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["crisp-sdk-web", "crisp-api"],
+        "env": ["CRISP_"],
+        "hosts": ["client.crisp.chat"]
+      }
+    },
+    {
+      "id": "algolia",
+      "name": "Algolia",
+      "category": "search",
+      "kind": "likely",
+      "purpose": "Hosted search",
+      "dpa": "https://www.algolia.com/policies/data-processing-addendum",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["algoliasearch", "@algolia/", "react-instantsearch"],
+        "pypi": ["algoliasearch"],
+        "py": ["algoliasearch"],
+        "env": ["ALGOLIA_"]
+      }
+    },
+    {
+      "id": "cloudinary",
+      "name": "Cloudinary",
+      "category": "storage",
+      "kind": "likely",
+      "purpose": "Image and video hosting",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["cloudinary", "next-cloudinary", "@cloudinary/"],
+        "pypi": ["cloudinary"],
+        "env": ["CLOUDINARY_"],
+        "hosts": ["api.cloudinary.com", "res.cloudinary.com"]
+      }
+    },
+    {
+      "id": "uploadthing",
+      "name": "UploadThing",
+      "category": "storage",
+      "kind": "likely",
+      "purpose": "File uploads",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["uploadthing", "@uploadthing/"], "env": ["UPLOADTHING_"] }
+    },
+    {
+      "id": "mux",
+      "name": "Mux",
+      "category": "storage",
+      "kind": "likely",
+      "purpose": "Video hosting and streaming",
+      "dpa": "https://www.mux.com/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["@mux/"], "pypi": ["mux-python"], "env": ["MUX_"] }
+    },
+    {
+      "id": "trigger-dev",
+      "name": "Trigger.dev",
+      "category": "jobs",
+      "kind": "likely",
+      "purpose": "Background jobs",
+      "dpa": "https://trigger.dev/legal/dpa",
+      "list": "https://trigger.dev/legal/subprocessors",
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["@trigger.dev/"],
+        "env": ["TRIGGER_SECRET_KEY", "TRIGGER_API_KEY", "TRIGGER_PROJECT_"],
+        "files": ["trigger.config.ts"]
+      }
+    },
+    {
+      "id": "inngest",
+      "name": "Inngest",
+      "category": "jobs",
+      "kind": "likely",
+      "purpose": "Background jobs and workflows",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["inngest"], "pypi": ["inngest"], "env": ["INNGEST_"] }
+    },
+    {
+      "id": "pusher",
+      "name": "Pusher",
+      "category": "realtime",
+      "kind": "likely",
+      "purpose": "Realtime messaging",
+      "dpa": null,
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["pusher", "pusher-js"], "pypi": ["pusher"], "env": ["PUSHER_"] }
+    },
+    {
+      "id": "ably",
+      "name": "Ably",
+      "category": "realtime",
+      "kind": "likely",
+      "purpose": "Realtime messaging",
+      "dpa": "https://ably.com/data-processing-addendum",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["ably"], "pypi": ["ably"], "env": ["ABLY_"] }
+    },
+    {
+      "id": "liveblocks",
+      "name": "Liveblocks",
+      "category": "realtime",
+      "kind": "likely",
+      "purpose": "Realtime collaboration",
+      "dpa": "https://liveblocks.io/dpa",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": { "npm": ["@liveblocks/"], "env": ["LIVEBLOCKS_"] }
+    },
+    {
+      "id": "apify",
+      "name": "Apify",
+      "category": "scraping",
+      "kind": "likely",
+      "purpose": "Hosted scrapers and automation (Actors)",
+      "dpa": "https://docs.apify.com/legal/data-processing-addendum",
+      "list": null,
+      "seen": "2026-10-09",
+      "match": {
+        "npm": ["apify", "apify-client", "apify-cli"],
+        "pypi": ["apify", "apify-client"],
+        "py": ["apify", "apify_client"],
+        "env": ["APIFY_"],
+        "files": [".actor/actor.json"]
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "ci",
+      "kind": "tooling",
+      "purpose": "Code hosting and CI",
+      "dpa": "https://github.com/customer-terms/github-data-protection-agreement",
+      "list": "https://docs.github.com/en/site-policy/privacy-policies/github-subprocessors",
+      "seen": "2026-10-09",
+      "note": "Usually not a sub-processor: CI runs your code, not your customers' data, and with Sign in with GitHub, GitHub is the controller of its own users' accounts. List it if a job reads production data or you send customer data to its API.",
+      "match": {
+        "npm": ["@octokit/", "octokit", "@actions/"],
+        "pypi": ["pygithub"],
+        "env": [
+          "GITHUB_TOKEN",
+          "GH_TOKEN",
+          "GITHUB_APP_",
+          "GITHUB_PRIVATE_KEY",
+          "GITHUB_WEBHOOK_SECRET"
+        ],
+        "files": [".github/workflows/"]
+      },
+      "services": [
+        {
+          "npm": ["next-auth/providers/github", "@auth/core/providers/github"],
+          "env": [
+            "AUTH_GITHUB_",
+            "GITHUB_ID",
+            "GITHUB_SECRET",
+            "GITHUB_CLIENT_ID",
+            "GITHUB_CLIENT_SECRET"
+          ],
+          "purpose": "Sign in with GitHub"
+        }
+      ]
+    }
+  ]
+}

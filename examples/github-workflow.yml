@@ -1,0 +1,23 @@
+# .github/workflows/subprocessors.yml: on every pull request, flag a change that adds a vendor your
+# code sends data to. Adding a sub-processor means telling your customers first (GDPR Art. 28(2);
+# DPAs usually give 30 days to object), so the warning lands before the merge, on the line that
+# brought the vendor in. With a committed subprocessors.json it compares with that; without one,
+# with the pull request's base commit.
+name: Sub-processors
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  subprocessors:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - id: sp
+        uses: agentwares/subprocessors@main
+        with:
+          fail-on-new: false
+      - if: steps.sp.outputs.added != ''
+        run: echo "New sub-processors in this change - ${{ steps.sp.outputs.added }}"

@@ -1,0 +1,88 @@
+name: subprocessors check
+description: Flag a pull request that adds a sub-processor, a vendor your code sends data to, because your customers must be told first. Drafted from your code; no account.
+author: agentwares
+branding:
+  icon: users
+  color: blue
+
+# Runs the built CLI from this repository's committed dist/ on your own runner: no npm install, no
+# account, no requests of its own. It compares the vendors the checked-out code uses with your
+# committed subprocessors.json, or, when there is none, with the code at the pull request's base
+# commit (fetched from your own origin if the checkout does not have it).
+inputs:
+  path:
+    description: The directory to check, relative to the workspace (a repository, or one app in a monorepo).
+    required: false
+    default: "."
+  list:
+    description: The committed list to compare with, relative to the workspace. Default, path/subprocessors.json when it exists; otherwise the code at `base`.
+    required: false
+    default: ""
+  base:
+    description: The git ref to compare with when there is no list. Default, the pull request's base commit.
+    required: false
+    default: ${{ github.event.pull_request.base.sha }}
+  fail-on-new:
+    description: true fails the job when the change adds a sub-processor; false (the default) only warns.
+    required: false
+    default: "false"
+
+outputs:
+  added:
+    description: Ids of the new sub-processors, comma-separated (empty when none)
+    value: ${{ steps.check.outputs.added }}
+  removed:
+    description: Ids of vendors no longer seen in the code, comma-separated
+    value: ${{ steps.check.outputs.removed }}
+  report:
+    description: Path to the full JSON result
+    value: ${{ steps.check.outputs.report }}
+
+runs:
+  using: composite
+  steps:
+    - id: check
+      shell: bash
+      env:
+        SP_PATH: ${{ inputs.path }}
+        SP_LIST: ${{ inputs.list }}
+        SP_BASE: ${{ inputs.base }}
+        SP_FAIL: ${{ inputs.fail-on-new }}
+      run: |
+        set +e
+        case "$SP_FAIL" in true|false) ;; *) echo "subprocessors: fail-on-new must be true or false; got \"$SP_FAIL\""; exit 2 ;; esac
+        report="$RUNNER_TEMP/subprocessors-check.json"
+        cli="$GITHUB_ACTION_PATH/dist/cli.js"
+        if [ -n "$SP_LIST" ]; then
+          node "$cli" check "$SP_PATH" --list "$SP_LIST" --json > "$report"
+        elif [ -f "$SP_PATH/subprocessors.json" ]; then
+          node "$cli" check "$SP_PATH" --json > "$report"
+        elif [ -n "$SP_BASE" ]; then
+          if ! git -C "$SP_PATH" cat-file -e "$SP_BASE^{commit}" 2>/dev/null; then
+            git -C "$SP_PATH" fetch --quiet --no-tags --depth=1 origin "$SP_BASE" 2>/dev/null
+          fi
+          node "$cli" check "$SP_PATH" --base "$SP_BASE" --json > "$report"
+        else
+          echo "subprocessors: nothing to compare with. Commit a list (the CLI's init command writes subprocessors.json), or run on pull_request so the base commit is known."
+          exit 2
+        fi
+        code=$?
+        if [ "$code" -gt 1 ]; then cat "$report"; exit "$code"; fi
+        REPORT="$report" node --input-type=module -e '
+          import { readFileSync, appendFileSync } from "node:fs";
+          import { pathToFileURL } from "node:url";
+          const { renderCheck, annotations } = await import(pathToFileURL(process.env.GITHUB_ACTION_PATH + "/dist/index.js").href);
+          const result = JSON.parse(readFileSync(process.env.REPORT, "utf8"));
+          if (result.error) {
+            process.stdout.write(`subprocessors: ${result.error.code}: ${result.error.cause}\n  fix: ${result.error.fix}\n`);
+            process.exit(1);
+          }
+          const text = renderCheck(result);
+          process.stdout.write(text);
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY, "```\n" + text + "```\n");
+          const fail = process.env.SP_FAIL === "true";
+          for (const line of annotations(result, { prefix: process.env.SP_PATH, fail })) process.stdout.write(line + "\n");
+          const ids = (rows) => rows.map((r) => r.id).join(",");
+          appendFileSync(process.env.GITHUB_OUTPUT, `added=${ids(result.added)}\nremoved=${ids(result.removed)}\nreport=${process.env.REPORT}\n`);
+          if (fail && result.added.length) process.exitCode = 1;
+        '
